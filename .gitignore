@@ -1,0 +1,12 @@
+.DS_Store
+.vscode
+.idea
+*.log
+node_modules/
+dist/
+build/
+bin/
+obj/
+*.suo
+*.user
+.gemini/
