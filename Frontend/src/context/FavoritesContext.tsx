@@ -70,7 +70,6 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
     const removeFavorite = async (slug: string) => {
         try {
             // Optimistic update
-            const itemToRemove = favorites.find(f => f.movieSlug === slug);
             setFavorites(prev => prev.filter(s => s.movieSlug !== slug));
             await MovieService.removeFavorite(slug);
         } catch (error) {
