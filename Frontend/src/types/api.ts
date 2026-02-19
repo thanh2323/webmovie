@@ -148,3 +148,14 @@ export interface CountryResponse {
     msg: string;
     data?: CountryData;
 }
+
+export interface FavoriteItem {
+    id: string;
+    userId: string;
+    movieSlug: string;
+    movieName: string;
+    moviePosterUrl?: string;
+    movieThumbUrl?: string;
+    movieYear?: number;
+    createdAt: string;
+}

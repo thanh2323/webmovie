@@ -1,6 +1,9 @@
-import { Link } from 'react-router-dom';
-import { Play, Plus, Star } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Play, Plus, Star, Check } from 'lucide-react';
 import { resizeImage } from '../../lib/utils';
+import { useFavorites } from '../../context/FavoritesContext';
+import { useAuth } from '../../context/AuthContext';
+import { useState } from 'react';
 
 interface PremiumMovieCardProps {
     id: string | number;
@@ -11,6 +14,46 @@ interface PremiumMovieCardProps {
 }
 
 export function PremiumMovieCard({ id, title, image, year, rating }: PremiumMovieCardProps) {
+    const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const slug = id.toString();
+    const favorite = isFavorite(slug);
+
+    const handleToggleFavorite = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!isAuthenticated) {
+            navigate('/login', { state: { from: location } });
+            return;
+        }
+
+        if (isLoading) return;
+
+        setIsLoading(true);
+        try {
+            if (favorite) {
+                await removeFavorite(slug);
+            } else {
+                await addFavorite({
+                    movieSlug: slug,
+                    movieName: title,
+                    moviePosterUrl: image,
+                    movieThumbUrl: image,
+                    movieYear: year ? parseInt(year) : undefined
+                });
+            }
+        } catch (error) {
+            console.error("Failed to toggle favorite", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <Link to={`/title/${id}`} className="group relative aspect-[2/3] overflow-hidden rounded-xl bg-[#1a1f2e] poster-hover cursor-pointer ring-1 ring-white/10 hover:ring-primary/50 transition-all duration-500 block">
             <img
@@ -22,12 +65,10 @@ export function PremiumMovieCard({ id, title, image, year, rating }: PremiumMovi
             <div className="overlay absolute inset-0 movie-card-gradient opacity-0 transition-opacity duration-300 flex flex-col justify-end p-4 md:p-5">
                 <div className="mb-auto flex justify-end">
                     <button className="size-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-primary transition-colors"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            // Handle add to list logic here
-                        }}
+                        onClick={handleToggleFavorite}
+                        disabled={isLoading}
                     >
-                        <Plus className="w-4 h-4 text-white" />
+                        {favorite ? <Check className="w-4 h-4 text-white" /> : <Plus className="w-4 h-4 text-white" />}
                     </button>
                 </div>
 

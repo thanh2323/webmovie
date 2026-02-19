@@ -1,7 +1,9 @@
-import { Play, Plus, ThumbsUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Play, Plus, ThumbsUp, Check } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { cn, resizeImage } from '../../lib/utils';
 import { useState } from 'react';
+import { useFavorites } from '../../context/FavoritesContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface MovieCardProps {
     id: string | number;
@@ -17,8 +19,46 @@ interface MovieCardProps {
 
 export function MovieCard({ id, title, image, year, match, age, duration, variant = 'landscape', badge }: MovieCardProps) {
     const [isHovered, setIsHovered] = useState(false);
-
     const [imageError, setImageError] = useState(false);
+    const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const slug = id.toString();
+    const favorite = isFavorite(slug);
+
+    const handleToggleFavorite = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!isAuthenticated) {
+            navigate('/login', { state: { from: location } });
+            return;
+        }
+
+        if (isLoading) return;
+
+        setIsLoading(true);
+        try {
+            if (favorite) {
+                await removeFavorite(slug);
+            } else {
+                await addFavorite({
+                    movieSlug: slug,
+                    movieName: title,
+                    moviePosterUrl: image,
+                    movieThumbUrl: image, // Assuming thumb is same as poster if not provided separately
+                    movieYear: year ? parseInt(year) : undefined
+                });
+            }
+        } catch (error) {
+            console.error("Failed to toggle favorite", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <Link to={`/title/${id}`}
@@ -85,8 +125,12 @@ export function MovieCard({ id, title, image, year, match, age, duration, varian
                         <button className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
                             <Play className="w-5 h-5 fill-current" />
                         </button>
-                        <button className="w-10 h-10 rounded-full bg-black/60 border border-white/30 text-white flex items-center justify-center hover:bg-white/20 transition-colors">
-                            <Plus className="w-5 h-5" />
+                        <button
+                            className="w-10 h-10 rounded-full bg-black/60 border border-white/30 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                            onClick={handleToggleFavorite}
+                            disabled={isLoading}
+                        >
+                            {favorite ? <Check className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
                         </button>
                         <button className="w-10 h-10 rounded-full bg-black/60 border border-white/30 text-white flex items-center justify-center hover:bg-white/20 transition-colors">
                             <ThumbsUp className="w-5 h-5" />
@@ -104,8 +148,12 @@ export function MovieCard({ id, title, image, year, match, age, duration, varian
                         <button className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
                             <Play className="w-5 h-5 fill-current" />
                         </button>
-                        <button className="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
-                            <Plus className="w-5 h-5" />
+                        <button
+                            className="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                            onClick={handleToggleFavorite}
+                            disabled={isLoading}
+                        >
+                            {favorite ? <Check className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
                         </button>
                     </div>
                     <span className="text-xs text-text-secondary">Movie • {year || "2024"}</span>

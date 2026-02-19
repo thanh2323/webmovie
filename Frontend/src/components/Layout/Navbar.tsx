@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Search, Bell, Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import MovieService from '../../services/movieService';
 import { Category } from '../../types/api';
@@ -15,6 +15,23 @@ export function Navbar() {
     const [searchQuery, setSearchQuery] = useState('');
     const { user, isAuthenticated, logout } = useAuth();
     const [categories, setCategories] = useState<Category[]>([]);
+
+    // Create Ref for search container
+    const searchRef = useRef<HTMLDivElement>(null);
+
+    // Handle click outside to close search
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+                setIsSearchOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -78,6 +95,7 @@ export function Navbar() {
 
                         <Link to="/danh-sach/phim-le" className="hover:text-primary transition-colors">Phim Lẻ</Link>
                         <Link to="/danh-sach/phim-bo" className="hover:text-primary transition-colors">Phim Bộ</Link>
+                        <Link to="/my-list" className="hover:text-primary transition-colors">Phim Yêu Thích</Link>
 
                         {/* Movies Dropdown Group */}
                         <div className="relative group">
@@ -98,14 +116,16 @@ export function Navbar() {
                             </div>
                         </div>
 
-                        <Link to="/my-list" className="hover:text-primary transition-colors">Phim của tôi</Link>
                     </div>
                 </div>
 
                 {/* Icons */}
                 <div className="flex items-center gap-4 text-white">
                     {/* Search Bar */}
-                    <div className={`flex items-center bg-transparent border border-white/0 rounded-full transition-all duration-300 ${isSearchOpen ? 'bg-white/10 border-white/20 pl-4 py-1.5' : 'p-2'}`}>
+                    <div
+                        ref={searchRef}
+                        className={`flex items-center bg-transparent border border-white/0 rounded-full transition-all duration-300 ${isSearchOpen ? 'bg-white/10 border-white/20 pl-4 py-1.5' : 'p-2'}`}
+                    >
                         {isSearchOpen && (
                             <form
                                 onSubmit={(e) => {
@@ -122,7 +142,7 @@ export function Navbar() {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Tìm kiếm..."
-                                    className="bg-transparent border-none focus:outline-none text-white text-sm w-32 lg:w-48 placeholder-gray-400"
+                                    className="bg-transparent border-none focus:outline-none text-white text-sm w-36 sm:w-48 lg:w-60 placeholder-gray-400"
                                     autoFocus
                                 />
                             </form>
@@ -142,10 +162,7 @@ export function Navbar() {
                         </button>
                     </div>
 
-                    <button className="p-2 hover:bg-white/10 rounded-full transition-colors relative">
-                        <Bell className="w-5 h-5" />
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                    </button>
+
 
                     {/* Profile Dropdown */}
                     {isAuthenticated ? (
@@ -203,6 +220,13 @@ export function Navbar() {
                         className="text-gray-300 hover:text-white py-2 font-medium border-b border-white/5"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
+                        Phim Mới
+                    </Link>
+                    <Link
+                        to="/danh-sach/phim-le"
+                        className="text-gray-300 hover:text-white py-2 font-medium border-b border-white/5"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
                         Phim Lẻ
                     </Link>
                     <Link
@@ -211,6 +235,13 @@ export function Navbar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Phim Bộ
+                    </Link>
+                    <Link
+                        to="/my-list"
+                        className="text-gray-300 hover:text-white py-2 font-medium border-b border-white/5"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        Phim Yêu Thích
                     </Link>
 
                     {/* Mobile Categories Dropdown */}
@@ -239,13 +270,7 @@ export function Navbar() {
                         )}
                     </div>
 
-                    <Link
-                        to="/my-list"
-                        className="text-gray-300 hover:text-white py-2 font-medium border-b border-white/5"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Danh Sách
-                    </Link>
+
 
                     {!isAuthenticated && (
                         <div className="flex flex-col gap-3 mt-2">

@@ -6,6 +6,8 @@ using WebMovie.Application.Services;
 using WebMovie.Infrastructure.Data;
 using WebMovie.Infrastructure.ExternalApis;
 
+using WebMovie.Infrastructure.Repositories;
+
 namespace WebMovie.Infrastructure;
 
 public static class DependencyInjection
@@ -26,10 +28,12 @@ public static class DependencyInjection
         services.AddSingleton<IJwtTokenGenerator, Authentication.JwtTokenGenerator>();
         services.AddSingleton<IPasswordHasher, Authentication.PasswordHasher>();
         services.AddScoped<IUserRepository, Persistence.UserRepository>();
+        services.AddScoped<IFavoriteRepository, FavoriteRepository>();
         services.AddScoped<IAuthService, AuthService>();
 
         // Application Services
         services.AddScoped<IMovieService, MovieService>();
+        services.AddScoped<IFavoriteService, FavoriteService>();
 
         return services;
     }
