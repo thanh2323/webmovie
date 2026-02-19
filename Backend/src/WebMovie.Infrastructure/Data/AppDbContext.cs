@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebMovie.Domain.Entities;
 
 namespace WebMovie.Infrastructure.Data;
 
@@ -8,9 +9,15 @@ public class AppDbContext : DbContext
     {
     }
 
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Favorite> Favorites => Set<Favorite>();
+    public DbSet<WatchHistory> WatchHistories => Set<WatchHistory>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        // Configurations go here
+
+        // Apply tất cả configurations từ assembly này
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }
