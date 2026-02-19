@@ -1,0 +1,31 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ringGrad" x1="20" y1="20" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E50914"/>
+      <stop offset="1" stop-color="#800000"/>
+    </linearGradient>
+    <filter id="dropShadow" x="0" y="0" width="200" height="200" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  
+  <!-- Stylized Film Reel / Lens Aperture -->
+  <!-- Outer Circle with Gradient -->
+  <circle cx="100" cy="100" r="75" stroke="url(#ringGrad)" stroke-width="15" fill="none" filter="url(#dropShadow)"/>
+  
+  <!-- Abstract 'S' Wave inside -->
+  <path d="M 100 55 
+           C 70 55, 60 95, 100 95 
+           C 140 95, 130 145, 100 145" 
+        stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- Decorative Dots/Sprockets on the Ring (Film Strip vibe) -->
+  <circle cx="100" cy="12" r="4" fill="#E50914"/>
+  <circle cx="188" cy="100" r="4" fill="#E50914"/>
+  <circle cx="100" cy="188" r="4" fill="#E50914"/>
+  <circle cx="12" cy="100" r="4" fill="#E50914"/>
+  
+  <!-- Play Triangle Accent (Subtle, integrated) -->
+  <path d="M 135 100 L 155 110 L 135 120 Z" fill="#E50914"/>
+
+</svg>
