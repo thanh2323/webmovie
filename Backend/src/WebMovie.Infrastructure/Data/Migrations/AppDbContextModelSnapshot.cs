@@ -95,6 +95,12 @@ namespace WebMovie.Infrastructure.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RefreshTokenHash")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -169,33 +175,6 @@ namespace WebMovie.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("WatchHistory", (string)null);
-                });
-
-            modelBuilder.Entity("WebMovie.Domain.Entities.Favorite", b =>
-                {
-                    b.HasOne("WebMovie.Domain.Entities.User", "User")
-                        .WithMany("Favorites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebMovie.Domain.Entities.WatchHistory", b =>
-                {
-                    b.HasOne("WebMovie.Domain.Entities.User", null)
-                        .WithMany("WatchHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebMovie.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Favorites");
-
-                    b.Navigation("WatchHistories");
                 });
 #pragma warning restore 612, 618
         }

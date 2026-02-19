@@ -1,49 +1,64 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import { Home } from './pages/Home';
+import { MovieDetail } from './pages/MovieDetail';
+import { MyList } from './pages/MyList';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { CategoryPage } from './pages/CategoryPage';
+import { SearchPage } from './pages/SearchPage';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { WatchPage } from './pages/WatchPage';
 
-function App() {
-    const [count, setCount] = useState(0)
-    const [health, setHealth] = useState<{ status: string; database: string } | null>(null)
+// Protected Route Component
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+    const { isAuthenticated, isLoading } = useAuth();
 
-    const checkHealth = async () => {
-        try {
-            const response = await fetch('/api/health')
-            const data = await response.json()
-            setHealth({ status: data.status, database: data.database })
-        } catch (error) {
-            setHealth({ status: 'Error', database: 'Failed to connect' })
-        }
+    if (isLoading) {
+        return <div className="min-h-screen flex items-center justify-center bg-black text-white">Loading...</div>;
     }
 
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-            <h1 className="text-4xl font-bold mb-4">Web Movie App</h1>
-            <div className="mb-6 p-4 border border-gray-700 rounded bg-gray-800 text-center">
-                <h2 className="text-xl font-semibold mb-2">System Status</h2>
-                <div className="flex gap-4 mb-4 justify-center">
-                    <span className={`px-2 py-1 rounded ${health?.status === 'Healthy' ? 'bg-green-600' : 'bg-red-600'}`}>
-                        API: {health?.status || 'Unknown'}
-                    </span>
-                    <span className={`px-2 py-1 rounded ${health?.database === 'Connected' ? 'bg-green-600' : 'bg-red-600'}`}>
-                        DB: {health?.database || 'Unknown'}
-                    </span>
-                </div>
-                <button
-                    className="px-4 py-2 bg-purple-600 rounded hover:bg-purple-700 transition"
-                    onClick={checkHealth}
-                >
-                    Check Connection
-                </button>
-            </div>
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
 
-            <p className="mb-4">Backend: .NET 9 | Frontend: React + Tailwind | DB: Postgres</p>
-            <button
-                className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition"
-                onClick={() => setCount((count) => count + 1)}
-            >
-                Count is {count}
-            </button>
-        </div>
-    )
+    return children;
+};
+
+function AppRoutes() {
+    return (
+        <Routes>
+            <Route path="/" element={<MainLayout />}>
+                <Route index element={<Home />} />
+                <Route path="title/:id" element={<MovieDetail />} />
+                <Route path="watch/:id" element={<WatchPage />} />
+                <Route path="my-list" element={
+                    <ProtectedRoute>
+                        <MyList />
+                    </ProtectedRoute>
+                } />
+
+                {/* Redirect compatibility routes */}
+                <Route path="phim/:slug" element={<MovieDetail />} />
+                <Route path="danh-sach/:type" element={<CategoryPage />} />
+                <Route path="the-loai/:slug" element={<CategoryPage />} />
+                <Route path="tim-kiem" element={<SearchPage />} />
+            </Route>
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+        </Routes>
+    );
 }
 
-export default App
+function App() {
+    return (
+        <BrowserRouter>
+            <AuthProvider>
+                <AppRoutes />
+            </AuthProvider>
+        </BrowserRouter>
+    );
+}
+
+export default App;

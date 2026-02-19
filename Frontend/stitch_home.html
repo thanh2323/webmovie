@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Movie Streaming Homepage</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec1337",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0a0e17","surface-dark": "#151f32",},
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }.no-scrollbar {
+            -ms-overflow-style: none;scrollbar-width: none;}
+        .carousel-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-in-out;
+        }
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased selection:bg-primary selection:text-white">
+<nav class="fixed top-0 w-full z-50 bg-background-light/90 dark:bg-background-dark/80 backdrop-blur-md border-b border-gray-200 dark:border-white/10 transition-all duration-300">
+<div class="px-4 md:px-12 py-4 flex items-center justify-between">
+<div class="flex items-center gap-8">
+<a class="text-primary font-black text-2xl tracking-tighter uppercase" href="#">Stream<span class="text-gray-900 dark:text-white">Flix</span></a>
+<div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-500 dark:text-gray-300">
+<a class="text-gray-900 dark:text-white hover:text-primary transition-colors" href="#">Home</a>
+<div class="relative group">
+<button class="flex items-center gap-1 hover:text-primary transition-colors focus:outline-none py-2">
+                            Movies
+                            <span class="material-icons text-sm">expand_more</span>
+</button>
+<div class="dropdown-menu absolute left-0 top-full mt-0 w-48 bg-surface-dark border border-white/10 rounded-lg shadow-xl py-2 z-50">
+<a class="block px-4 py-2 hover:bg-white/10 hover:text-primary transition-colors" href="#">Action</a>
+<a class="block px-4 py-2 hover:bg-white/10 hover:text-primary transition-colors" href="#">Sci-Fi</a>
+<a class="block px-4 py-2 hover:bg-white/10 hover:text-primary transition-colors" href="#">Horror</a>
+<a class="block px-4 py-2 hover:bg-white/10 hover:text-primary transition-colors" href="#">Romance</a>
+<a class="block px-4 py-2 hover:bg-white/10 hover:text-primary transition-colors" href="#">Documentary</a>
+<a class="block px-4 py-2 hover:bg-white/10 hover:text-primary transition-colors" href="#">Comedy</a>
+<a class="block px-4 py-2 hover:bg-white/10 hover:text-primary transition-colors" href="#">Drama</a>
+</div>
+</div>
+<a class="hover:text-primary transition-colors" href="#">TV Shows</a>
+<a class="hover:text-primary transition-colors" href="#">My List</a>
+</div>
+</div>
+<div class="flex items-center gap-4 text-gray-900 dark:text-white">
+<button class="p-2 hover:bg-gray-200 dark:hover:bg-white/10 rounded-full transition-colors">
+<span class="material-icons">search</span>
+</button>
+<button class="p-2 hover:bg-gray-200 dark:hover:bg-white/10 rounded-full transition-colors relative">
+<span class="material-icons">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="flex items-center gap-2 cursor-pointer group">
+<img alt="User Profile" class="w-8 h-8 rounded-lg object-cover ring-2 ring-transparent group-hover:ring-primary transition-all" data-alt="User profile avatar smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJfEMupIUtexrHwd70vw9F4JD7lcURrfhvCrjpuV2gOM3Ct8pXAj5VtQYqDDwCNnsrbqGwUavlxpI0Yd0b3fVmBd-kd5d64T0sjbrsKiB8r8lxqK-3nkyzIJrrZXm5ulLTINLcZogfEFPPoRd1-0fxP6o8yNaO042Y_Pcr-RSBnwJ6srLrAm2jsyTodMoPjGthMt8Ocdx9ZUz5RgOXbA9NytwMqj_lbPLwOwbnzZkg0nszvUR4COyTJClxo9ovD_bpkJSxE2aH1gA"/>
+<span class="material-icons text-sm transition-transform group-hover:rotate-180">expand_more</span>
+</div>
+</div>
+</div>
+</nav>
+<header class="relative w-full h-[85vh] flex items-center">
+<div class="absolute inset-0 w-full h-full">
+<img alt="Hero Background" class="w-full h-full object-cover" data-alt="Cinematic dark movie scene landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl8wXo5-WR3rm6X6yqsrPyULEwArpVSH7Se3dixC9NHBDnrJbA8D-oGotlB1BGXEePZOJpANG_9OZYWQa4gJMFbLJTRA28aYiTx6O6QPPvui_BWOr6vHfZBG1KVsxkXCbdNK98AfB5waNxzoZkXksSGfYO82Ff3TDo3cEI3Nmdf9oi4M7pGSZhmJPA_wOejvGabOukNVhuHX3tW0KcCaeB7GFMwfxjWut8gSZR5hBCa1vT_DxJauOxew3wPtXrfOBeQxVJRXniKVg"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/60 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 w-full px-4 md:px-12 pt-20">
+<div class="max-w-2xl space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/10 backdrop-blur-sm border border-white/10 text-xs font-semibold uppercase tracking-wider text-white mb-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                #1 in Movies Today
+            </div>
+<h1 class="text-5xl md:text-7xl font-display font-black text-white leading-tight drop-shadow-xl">
+                CYBER<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-400">HORIZON</span>
+</h1>
+<div class="flex items-center gap-4 text-sm md:text-base font-medium text-gray-300">
+<span class="text-green-400 font-bold">98% Match</span>
+<span>2024</span>
+<span class="border border-gray-500 px-1 rounded text-xs">4K</span>
+<span>2h 14m</span>
+<span class="border border-gray-500 px-1 rounded text-xs">PG-13</span>
+</div>
+<p class="text-gray-300 text-lg line-clamp-3 md:line-clamp-none max-w-xl leading-relaxed">
+                In a future where consciousness can be digitized, a rogue detective must hunt down a hacker who has found a way to erase memories permanently, threatening the very fabric of society.
+            </p>
+<div class="flex flex-wrap items-center gap-4 pt-4">
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-lg font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/30">
+<span class="material-icons text-2xl">play_arrow</span>
+                    Play Now
+                </button>
+<button class="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-8 py-3.5 rounded-lg font-bold text-lg transition-all border border-white/10">
+<span class="material-icons text-2xl">info_outline</span>
+                    More Info
+                </button>
+</div>
+</div>
+</div>
+</header>
+<main class="relative z-20 -mt-24 pb-20 px-4 md:px-12 space-y-12">
+<section>
+<div class="flex items-center justify-between mb-4 px-1">
+<h2 class="text-xl md:text-2xl font-bold text-white">Trending Now</h2>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white border border-white/10 transition-colors">
+<span class="material-icons text-sm">arrow_back</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white border border-white/10 transition-colors">
+<span class="material-icons text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex overflow-x-auto gap-4 pb-8 no-scrollbar scroll-smooth snap-x">
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Dark dramatic movie scene with lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAijgrtFUi5VON3g9jATVV-m2DKi19WcKkMetQ8E8FxGBOLpb9xkJrCUzYXXBp1L1EkTtLKhK7P3TBsjdPI56fRx8L7CvOBVhCfjnOPYGnZcWgONbTxTuxFLIox5syHK_BCeMO64nKXRmQa58gkRURkksxqmxuf-8TYVs310NdM54sJJICpN2hPy8UtUlGiyUKpWSAAwJ5Pd9VcyvNVxTDHstY0BOJxzZaY_0f_fLFe14maK1sQx4DWFCzAoW3W0k0NWfCBXWXpFOk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Neon Nights</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span class="text-primary font-bold">New</span>
+<span>•</span>
+<span>Action</span>
+</div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background-dark/60 backdrop-blur-[2px]">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-black/60 border border-white/30 text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-black/60 border border-white/30 text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">thumb_up</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Scifi space tunnel abstract" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa0GCkwGqwg23KzYTLEk652KxTen3i91CETAvRiBSNTe4EJLm1brmIAMMWCZV3O_PV6o97vcfGjtMexUJb8TJG7L4MzqSL4ffUU9w-HerPMEfiiguPYOPRzCEuJuQ7VX6qh2wy9dFbz1eovvujxGb79RmWz6wdwtMzY0jNtTd8EoJ5IOJai6P6ENpD9Z7FnE8s-SEipn0bD0tcrZYXUa7pJwiO6NKAYxYRjr5vr3kxLQpetUazVZlu9xHwTLoI8l_KNLGDkg3Dfx8"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">TOP 10</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Void Walker</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span class="text-green-400 font-bold">95% Match</span>
+<span>•</span>
+<span>Sci-Fi</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Stormy ocean waves dark mood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9eOAcPcI8CmFuJUeYJlLPuEdfysQMcy5TyKZVyF-Uc61cPD8sGCVuMdKzqSfJg9QWzMtWGGQgNp4qziqGXkQRMJLmzVQ404ogUh5PmkjRF9I6GUbTfSgZ1954eBbS9eGxiGXjPwh5lmlZxmrSyEHseim9_ClPktiMIw-JlTVuYkuJKvobbyCzicGejigwaNFR5FtLgAqEsogMYrMV-jvuYQeikYSzQGXUQKRaFA7W7BtCDQYU7CsrtAyU8cDcihsPYtifJKx7F4Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Deep Blue</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span>Thriller</span>
+<span>•</span>
+<span>2023</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Vintage film camera close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF7iEizuo_9IMcN5Aaj5XOQiXgFVsszEbuos3KFP2__0SqyccNSDDn1kfIV6XFHE7JTueXnRU9M7FEGEfrHuqom72U0vFqVMvtqy5C07pljAKPf4bLqlEBW3Je5nmmPI7YZs4biQMv1lpWGX7Qr5XRpuQyfAzGcJIMAtfP_r0zf2AsmhV2pNp0BM4qQuIzAyR62eEEceBV04pumNbHpLkQYXSe9ML13xMPUnagALawFWBQyH_kYO3fmKv20p2wa_iDm_DjNCMXQCQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">The Director</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span>Drama</span>
+<span>•</span>
+<span>Award Winner</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Cinematic fire explosion scene" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2XjrOYdTjUPI2oJy7sOiPf0I-WmytMYWOkKGiwCqyLdacD2M0cfNBcJ7N3DB3wPin-nhyLwd9rKD5jk9KF_4IQT_Ix3NaSIrA5ZltYqZ0W9_kUr-RakKUH-8rWH2vwS-UP6UrRzwEHB8dJMrFo1xSUOegJ7Rius3tM-wcG8ly8S5U9iFM9TwufIqhjO_pvzjxWo8TtrJVZo5repoMG2Oy4Ru1TacOw64Xzja8eDRmhD4ZY5p2410lV8hiJhMXzIk9sW6ulVV8vD8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Ignition</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span>Action</span>
+<span>•</span>
+<span>Explosive</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-xl md:text-2xl font-bold text-white mb-4 px-1">New Releases</h2>
+<div class="flex overflow-x-auto gap-4 pb-8 no-scrollbar scroll-smooth snap-x">
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="Abstract dark forest mist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL0UTjYpjyhewiEMGwMjweXQCEkMcBp2ztkbN0_a7CxqHVAJ3C86IT9lE8aX0lPI5yvSrzi2YHtq0CfYARXV21TFMFTIlKqaOMZ6nENZJokt0Sal3NgyL3Kz2dnkhtSHKXl5IF8x1KKlPVOH_9fKMfarFkHPWA6Q85kuXrGIoScinEteg1dX0xy26vKqbfBKYUAK5zB9J03CQ1T4lTqqqdggq395V_Z5v76CeiunTlc_B7CZeMfOlqEThmBJLjQRtmaiWSl4rKcrM"/>
+<div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">NEW</div>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Dark Woods</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Horror • 2024</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="Abstract colorful light streaks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgAbPK8yf9-5JrpRfdvF6ialSBeE2aWhA_4lmbIp7KADrlMEovzcG6nLSOaBjMV3xtW4lVVBovEJMLa6kKY2a6-CFNnCDAZuozwGEd4K8ihK0dy9ymqo6gZThMwo8gXQwo4htwqIXNPs0MDhZ5GOPQPqKqdp46gWl5m3yRuYY3qCcn3s2wh3Dv4Fx2LG9XoNCbFT3bdZQmvav2GSRJvHPUUzIa4gCiq2Gm3ZdwmNnwPay4207lNAN0dhrRWhJLS2YyWIZ2rTrDHCw"/>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Prism</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Docu • 2024</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="Cyberpunk woman portrait neon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLVYZgJ9HRTXdtcb5ORjrYqEKWwEsFyvZXCwQGa2bdGKwKoWymKi9adxp4I0pOtSscoSzLvnyShUJNPx3bTHBuU91kwhW07B4F6jJl4Po-1-reLEDoGAgZeyKBoSHq4FPpz3DlPeXiAyB70_R2j3JOpTrhu8kZyFkH3WfNQmS3bxFKm6_HPAJ9RJUsxNqiRV31gMxQMNTrQso-DhW8dHTYI-vhickyTQuKvqXhN3oerreCi3O5elfpIrB9tqXN8ZYCxE2iXhFWi2E"/>
+<div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">NEW</div>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Android Dream</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Sci-Fi • 2024</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="Book fantasy library magic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9agQq_IQyQ1AVbv9pB5FV4IzC6biYxbDauK6BwOPNBHTHM6Bvc97pyT_7TiVYCJLIGs2zinemsXXAGHGemFQkr48_Au9f50XYvm4S41ggCJc558er4BbGu1_mCChP_xH3OtkQo7nlqvXgsT9rA9e43l-cs_uwXpShNW6zSU3mp4YQNbshAVMVX4XChl2fNPd6V4-4JgiDJHEHJyKUBPRcCHta_U0SdjZlSXbyqdcO5WqL83tXqjx5_OE2jzgdzpwmjP93_XKOb9U"/>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">The Archive</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Fantasy • 2023</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="Retro vaporwave statue pink" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUOLQ2t4g8xTstLh6g361nQPbNjxIy34WtVK_7wSTUkdPcBTi0rJbMGRj0HSHxnEG3dl6VyOBV1f89RifOGBRCqC_oIa2WautsFB-vB-x3h9QGKn0XKolN_PmCTYqmh_y_IhBVML5oxzyZB_JQk-ewDdcbfZ2bsbVAOYefyOB_NLPc5WEgVhFgyT4RlDkwi9G8TovVWXaohJpogm1mi08bvZ2S4AvnqaEuLsiTt1q-geV5xeBUUj-AG9Hug8M-4mBrIlgNcuAHvRQ"/>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Vapor</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Indie • 2024</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-xl md:text-2xl font-bold text-white mb-4 px-1">Popular Genres</h2>
+<div class="flex overflow-x-auto gap-4 pb-4 no-scrollbar scroll-smooth snap-x">
+<button class="flex-none snap-start bg-surface-dark hover:bg-white/10 border border-white/10 rounded-full px-6 py-3 text-gray-300 hover:text-white transition-all flex items-center gap-2 group">
+<span class="material-icons text-red-500 group-hover:scale-110 transition-transform">local_fire_department</span>
+<span class="font-semibold">Action</span>
+</button>
+<button class="flex-none snap-start bg-surface-dark hover:bg-white/10 border border-white/10 rounded-full px-6 py-3 text-gray-300 hover:text-white transition-all flex items-center gap-2 group">
+<span class="material-icons text-blue-400 group-hover:scale-110 transition-transform">rocket_launch</span>
+<span class="font-semibold">Sci-Fi</span>
+</button>
+<button class="flex-none snap-start bg-surface-dark hover:bg-white/10 border border-white/10 rounded-full px-6 py-3 text-gray-300 hover:text-white transition-all flex items-center gap-2 group">
+<span class="material-icons text-orange-500 group-hover:scale-110 transition-transform">mood_bad</span>
+<span class="font-semibold">Horror</span>
+</button>
+<button class="flex-none snap-start bg-surface-dark hover:bg-white/10 border border-white/10 rounded-full px-6 py-3 text-gray-300 hover:text-white transition-all flex items-center gap-2 group">
+<span class="material-icons text-pink-400 group-hover:scale-110 transition-transform">favorite</span>
+<span class="font-semibold">Romance</span>
+</button>
+<button class="flex-none snap-start bg-surface-dark hover:bg-white/10 border border-white/10 rounded-full px-6 py-3 text-gray-300 hover:text-white transition-all flex items-center gap-2 group">
+<span class="material-icons text-green-400 group-hover:scale-110 transition-transform">public</span>
+<span class="font-semibold">Documentary</span>
+</button>
+<button class="flex-none snap-start bg-surface-dark hover:bg-white/10 border border-white/10 rounded-full px-6 py-3 text-gray-300 hover:text-white transition-all flex items-center gap-2 group">
+<span class="material-icons text-purple-400 group-hover:scale-110 transition-transform">theater_comedy</span>
+<span class="font-semibold">Comedy</span>
+</button>
+<button class="flex-none snap-start bg-surface-dark hover:bg-white/10 border border-white/10 rounded-full px-6 py-3 text-gray-300 hover:text-white transition-all flex items-center gap-2 group">
+<span class="material-icons text-yellow-400 group-hover:scale-110 transition-transform">history_edu</span>
+<span class="font-semibold">History</span>
+</button>
+</div>
+</section>
+<section>
+<h2 class="text-xl md:text-2xl font-bold text-white mb-4 px-1">Critically Acclaimed Movies</h2>
+<div class="flex overflow-x-auto gap-4 pb-8 no-scrollbar scroll-smooth snap-x">
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Acclaimed Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Dramatic silhouette against sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9eOAcPcI8CmFuJUeYJlLPuEdfysQMcy5TyKZVyF-Uc61cPD8sGCVuMdKzqSfJg9QWzMtWGGQgNp4qziqGXkQRMJLmzVQ404ogUh5PmkjRF9I6GUbTfSgZ1954eBbS9eGxiGXjPwh5lmlZxmrSyEHseim9_ClPktiMIw-JlTVuYkuJKvobbyCzicGejigwaNFR5FtLgAqEsogMYrMV-jvuYQeikYSzQGXUQKRaFA7W7BtCDQYU7CsrtAyU8cDcihsPYtifJKx7F4Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">The Silent Echo</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span class="text-green-400 font-bold">99% Match</span>
+<span>•</span>
+<span>Drama</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Acclaimed Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Close up eye reflection city" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAijgrtFUi5VON3g9jATVV-m2DKi19WcKkMetQ8E8FxGBOLpb9xkJrCUzYXXBp1L1EkTtLKhK7P3TBsjdPI56fRx8L7CvOBVhCfjnOPYGnZcWgONbTxTuxFLIox5syHK_BCeMO64nKXRmQa58gkRURkksxqmxuf-8TYVs310NdM54sJJICpN2hPy8UtUlGiyUKpWSAAwJ5Pd9VcyvNVxTDHstY0BOJxzZaY_0f_fLFe14maK1sQx4DWFCzAoW3W0k0NWfCBXWXpFOk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Visionary</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span class="text-green-400 font-bold">97% Match</span>
+<span>•</span>
+<span>Sci-Fi</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Acclaimed Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Old library interior mystery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9agQq_IQyQ1AVbv9pB5FV4IzC6biYxbDauK6BwOPNBHTHM6Bvc97pyT_7TiVYCJLIGs2zinemsXXAGHGemFQkr48_Au9f50XYvm4S41ggCJc558er4BbGu1_mCChP_xH3OtkQo7nlqvXgsT9rA9e43l-cs_uwXpShNW6zSU3mp4YQNbshAVMVX4XChl2fNPd6V4-4JgiDJHEHJyKUBPRcCHta_U0SdjZlSXbyqdcO5WqL83tXqjx5_OE2jzgdzpwmjP93_XKOb9U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Lost Pages</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span class="text-green-400 font-bold">96% Match</span>
+<span>•</span>
+<span>Mystery</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Acclaimed Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Snowy mountain landscape adventure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZHVjt5NUp9xdZ1rUh8GEL-nmoklN9lcI-VDgJr8kizJf1idSGof7DsGtyk5qWIICFHImdas3LEdlkqoUyz-pDg1Uos2gzG9cAzG4b7u-_P38h2sNn7KFlM-FEpwcBK0pAfSDFnKkz6rBqYnQSmRL2Gm7QUTJegcLD-IFBdoK588aEwT41n4S8JM-KufGEDJGhABYsaUnZb1SsC1dZzKy207M03bF3aWSDzaPOnXeHjRKtuc3U4DlymMGkd-a1GJCuypnpXEkK1Hw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Summit</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span class="text-green-400 font-bold">94% Match</span>
+<span>•</span>
+<span>Adventure</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-xl md:text-2xl font-bold text-white mb-4 px-1">Sci-Fi Hits</h2>
+<div class="flex overflow-x-auto gap-4 pb-8 no-scrollbar scroll-smooth snap-x">
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Sci-Fi Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Neon robot hand future" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLVYZgJ9HRTXdtcb5ORjrYqEKWwEsFyvZXCwQGa2bdGKwKoWymKi9adxp4I0pOtSscoSzLvnyShUJNPx3bTHBuU91kwhW07B4F6jJl4Po-1-reLEDoGAgZeyKBoSHq4FPpz3DlPeXiAyB70_R2j3JOpTrhu8kZyFkH3WfNQmS3bxFKm6_HPAJ9RJUsxNqiRV31gMxQMNTrQso-DhW8dHTYI-vhickyTQuKvqXhN3oerreCi3O5elfpIrB9tqXN8ZYCxE2iXhFWi2E"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Machina</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span>2023</span>
+<span>•</span>
+<span>Robot</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Sci-Fi Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Space station galaxy view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa0GCkwGqwg23KzYTLEk652KxTen3i91CETAvRiBSNTe4EJLm1brmIAMMWCZV3O_PV6o97vcfGjtMexUJb8TJG7L4MzqSL4ffUU9w-HerPMEfiiguPYOPRzCEuJuQ7VX6qh2wy9dFbz1eovvujxGb79RmWz6wdwtMzY0jNtTd8EoJ5IOJai6P6ENpD9Z7FnE8s-SEipn0bD0tcrZYXUa7pJwiO6NKAYxYRjr5vr3kxLQpetUazVZlu9xHwTLoI8l_KNLGDkg3Dfx8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Orbital</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span>2024</span>
+<span>•</span>
+<span>Space</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Sci-Fi Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Cyberpunk city rain night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1n823tf2OSQsEw-1ASprjZYWlJXIWlDlGg7TeBWsAgBbXKkNLbG3gWwk5fRu0NwxeOF8SOHzJCcYcG2JK-9vzZJN_1CyYX0H_BFxuhhn8HOwrZpc7oJ8RItcGrGUO3rdtZL22b-S1cSbI3TvlAvgDUUZ9kFLgDjVQ2UQPKSkNzxY_-vC6tHDI0z65vaW83RcYNLWHdBGDXc9SO7l4W9a0i9sBDvv6QKRrpETQo9J2Pc2F6_WN83bgbG6U83G03UbhHULtjRSTCpw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Neon Rain</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span>2022</span>
+<span>•</span>
+<span>Cyberpunk</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-none w-[200px] md:w-[280px] snap-start group cursor-pointer carousel-card transition-all duration-300">
+<div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-surface-dark shadow-xl">
+<img alt="Sci-Fi Movie Thumbnail" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Digital glitch art abstract" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL0UTjYpjyhewiEMGwMjweXQCEkMcBp2ztkbN0_a7CxqHVAJ3C86IT9lE8aX0lPI5yvSrzi2YHtq0CfYARXV21TFMFTIlKqaOMZ6nENZJokt0Sal3NgyL3Kz2dnkhtSHKXl5IF8x1KKlPVOH_9fKMfarFkHPWA6Q85kuXrGIoScinEteg1dX0xy26vKqbfBKYUAK5zB9J03CQ1T4lTqqqdggq395V_Z5v76CeiunTlc_B7CZeMfOlqEThmBJLjQRtmaiWSl4rKcrM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-bold text-white text-lg">Glitch</h3>
+<div class="flex items-center gap-2 text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+<span>2023</span>
+<span>•</span>
+<span>Thriller</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-xl md:text-2xl font-bold text-white mb-4 px-1">Documentaries</h2>
+<div class="flex overflow-x-auto gap-4 pb-8 no-scrollbar scroll-smooth snap-x">
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Documentary Poster" class="w-full h-full object-cover" data-alt="Nature forest aerial view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL0UTjYpjyhewiEMGwMjweXQCEkMcBp2ztkbN0_a7CxqHVAJ3C86IT9lE8aX0lPI5yvSrzi2YHtq0CfYARXV21TFMFTIlKqaOMZ6nENZJokt0Sal3NgyL3Kz2dnkhtSHKXl5IF8x1KKlPVOH_9fKMfarFkHPWA6Q85kuXrGIoScinEteg1dX0xy26vKqbfBKYUAK5zB9J03CQ1T4lTqqqdggq395V_Z5v76CeiunTlc_B7CZeMfOlqEThmBJLjQRtmaiWSl4rKcrM"/>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Planet Earth: Reborn</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Nature • 2024</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Documentary Poster" class="w-full h-full object-cover" data-alt="Abstract art colorful shapes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgAbPK8yf9-5JrpRfdvF6ialSBeE2aWhA_4lmbIp7KADrlMEovzcG6nLSOaBjMV3xtW4lVVBovEJMLa6kKY2a6-CFNnCDAZuozwGEd4K8ihK0dy9ymqo6gZThMwo8gXQwo4htwqIXNPs0MDhZ5GOPQPqKqdp46gWl5m3yRuYY3qCcn3s2wh3Dv4Fx2LG9XoNCbFT3bdZQmvav2GSRJvHPUUzIa4gCiq2Gm3ZdwmNnwPay4207lNAN0dhrRWhJLS2YyWIZ2rTrDHCw"/>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Art of Motion</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Design • 2023</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Documentary Poster" class="w-full h-full object-cover" data-alt="Vintage history book detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUOLQ2t4g8xTstLh6g361nQPbNjxIy34WtVK_7wSTUkdPcBTi0rJbMGRj0HSHxnEG3dl6VyOBV1f89RifOGBRCqC_oIa2WautsFB-vB-x3h9QGKn0XKolN_PmCTYqmh_y_IhBVML5oxzyZB_JQk-ewDdcbfZ2bsbVAOYefyOB_NLPc5WEgVhFgyT4RlDkwi9G8TovVWXaohJpogm1mi08bvZ2S4AvnqaEuLsiTt1q-geV5xeBUUj-AG9Hug8M-4mBrIlgNcuAHvRQ"/>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Lost Empires</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">History • 2022</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-[160px] md:w-[200px] snap-start group cursor-pointer carousel-card">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-surface-dark shadow-xl border border-white/5">
+<img alt="Documentary Poster" class="w-full h-full object-cover" data-alt="Space stars universe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBf4dU4Q8hBBmfZqjY2HemXjAaDs7F64KGHJWWY9s6cU6S3iZPuvxnU7Gmn-q6Rgxb_SuvDAEPmwAduzMoVbgQlSeEpqBOqcafYjLhsM1gmtzllb92SisXjwgHNBKyv0aHJEq2PGsYX9ABsZjIE00KdsZhlShhO3nK7UYsKcT1frtsJOWDTraqpJyQvtza4M8oAQSwqXmQisAnVkGtlHaF-9R5ptkEjibTIZNAId-F39rkh-oYxqnvxd26mtfXWBvHtihj5T9lP5o"/>
+<div class="absolute inset-0 bg-background-dark/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col justify-center items-center gap-3 p-4 text-center">
+<h3 class="font-bold text-white text-lg leading-tight">Cosmos: Origin</h3>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-icons text-xl">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-icons text-xl">add</span>
+</button>
+</div>
+<span class="text-xs text-gray-300">Space • 2024</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-surface-dark/40 border-t border-white/5 py-12 text-center text-gray-500 text-sm">
+<div class="flex justify-center gap-6 mb-6">
+<a class="hover:text-white transition-colors" href="#">Terms of Use</a>
+<a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-white transition-colors" href="#">Cookie Preferences</a>
+<a class="hover:text-white transition-colors" href="#">Help Center</a>
+</div>
+<p>© 2024 StreamFlix Inc. All rights reserved.</p>
+</footer>
+<script>
+    // Simple JS to add solid background to nav on scroll (CSS solution preferred but JS ensures it works)
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        if (window.scrollY > 50) {
+            nav.classList.add('bg-background-dark/95', 'shadow-lg');
+            nav.classList.remove('bg-background-light/90', 'dark:bg-background-dark/80');
+        } else {
+            nav.classList.remove('bg-background-dark/95', 'shadow-lg');
+            nav.classList.add('bg-background-light/90', 'dark:bg-background-dark/80');
+        }
+    });
+</script>
+</body></html>

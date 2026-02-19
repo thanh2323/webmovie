@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  frontend:
+    build: 
+      context: ./Frontend
+      dockerfile: Dockerfile
+    image: webmovie-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - backend
+    environment:
+      - DOMAIN=${DOMAIN}
+    networks:
+      - webmovie-network
+
+  backend:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile
+    image: webmovie-backend
+    restart: unless-stopped
+    expose:
+      - "8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+      - ASPNETCORE_ENVIRONMENT=Production
+      - MovieApi__BaseUrl=${MOVIE_API_BASE_URL}
+      - MovieApi__ImageBaseUrl=${MOVIE_API_IMAGE_BASE_URL}
+      # Add other necessary env vars here (e.g. JWT Settings)
+      - JwtSettings__Secret=${JWT_SECRET}
+      - JwtSettings__Issuer=${JWT_ISSUER}
+      - JwtSettings__Audience=${JWT_AUDIENCE}
+    networks:
+      - webmovie-network
+
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - webmovie-network
+
+networks:
+  webmovie-network:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8:1::/64
