@@ -1,6 +1,7 @@
-import { Play, Plus, ThumbsUp, Loader2, PlayCircle, Check } from 'lucide-react';
+import { Play, Plus, Loader2, PlayCircle, Check } from 'lucide-react';
 import { Section } from '../components/UI/Section';
 import { CommentSection } from '../components/UI/CommentSection';
+import { resizeImage } from '../lib/utils';
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import MovieService from '../services/movieService';
@@ -136,7 +137,7 @@ export function MovieDetail() {
             <div className="relative h-auto min-h-[50vh] md:min-h-[70vh] w-full flex flex-col justify-end">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url('${movie.poster_url}')` }}
+                    style={{ backgroundImage: `url('${resizeImage(movie.poster_url)}')` }}
                 >
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
                     <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent" />
@@ -263,7 +264,7 @@ export function MovieDetail() {
                         {movie.trailer_url ? (
                             <div className="group cursor-pointer" onClick={() => setIsTrailerOpen(true)}>
                                 <div className="block relative aspect-video rounded-md overflow-hidden mb-2">
-                                    <img src={movie.thumb_url} alt="Trailer" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <img src={resizeImage(movie.thumb_url)} alt="Trailer" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition">
                                         <div className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center">
                                             <PlayCircle className="w-10 h-10 fill-white/20 text-white" />

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Search, Bell, Menu, X, ChevronDown } from 'lucide-react';
+import { Search, Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
