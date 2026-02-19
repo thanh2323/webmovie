@@ -55,9 +55,18 @@ const MovieService = {
         return response.data;
     },
 
-    getMoviesByCategory: async (slug: string, page: number = 1): Promise<FilteredMovieListResponse> => {
+    getMoviesByCategory: async (
+        slug: string,
+        page: number = 1,
+        country?: string,
+        year?: number
+    ): Promise<FilteredMovieListResponse> => {
+        const params: any = { page };
+        if (country) params.country = country;
+        if (year) params.year = year;
+
         const response = await api.get<FilteredMovieListResponse>(`/movies/category/${slug}`, {
-            params: { page }
+            params
         });
         return response.data;
     },

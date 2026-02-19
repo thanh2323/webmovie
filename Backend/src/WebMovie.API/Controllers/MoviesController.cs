@@ -68,9 +68,13 @@
         }
 
         [HttpGet("category/{slug}")]
-        public async Task<ActionResult<FilteredMovieListResponse>> GetMoviesByCategory(string slug, [FromQuery] int page = 1)
+        public async Task<ActionResult<FilteredMovieListResponse>> GetMoviesByCategory(
+            string slug, 
+            [FromQuery] int page = 1,
+            [FromQuery] string? country = null,
+            [FromQuery] int? year = null)
         {
-            var result = await _movieService.GetMoviesByCategoryAsync(slug, page);
+            var result = await _movieService.GetMoviesByCategoryAsync(slug, page, country, year);
             return Ok(result);
         }
     }

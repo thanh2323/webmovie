@@ -74,6 +74,8 @@ export function Navbar() {
                     {/* Desktop Nav */}
                     <div className="hidden lg:flex items-center gap-4 lg:gap-6 text-sm font-medium text-text-secondary">
                         <Link to="/" className="text-white hover:text-primary transition-colors">Trang Chủ</Link>
+                        <Link to="/danh-sach/phim-moi-cap-nhat" className="hover:text-primary transition-colors">Phim Mới</Link>
+
                         <Link to="/danh-sach/phim-le" className="hover:text-primary transition-colors">Phim Lẻ</Link>
                         <Link to="/danh-sach/phim-bo" className="hover:text-primary transition-colors">Phim Bộ</Link>
 
@@ -96,7 +98,7 @@ export function Navbar() {
                             </div>
                         </div>
 
-                        <Link to="/my-list" className="hover:text-primary transition-colors">Danh Sách</Link>
+                        <Link to="/my-list" className="hover:text-primary transition-colors">Phim của tôi</Link>
                     </div>
                 </div>
 

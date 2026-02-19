@@ -65,10 +65,18 @@ public class MovieApiService : IMovieApiService
         return JsonSerializer.Deserialize<FilteredMovieListResponse>(content) ?? new FilteredMovieListResponse();
     }
 
-    public async Task<FilteredMovieListResponse> GetMoviesByCategoryAsync(string slug, int page = 1)
+    public async Task<FilteredMovieListResponse> GetMoviesByCategoryAsync(string slug, int page = 1, string? country = null, int? year = null)
     {
-        _logger.LogInformation("Fetching movies by category: {Slug}, page {Page}", slug, page);
-        var response = await _httpClient.GetAsync($"/v1/api/the-loai/{slug}?page={page}");
+        _logger.LogInformation("Fetching movies by category: {Slug}, page {Page}, country {Country}, year {Year}", slug, page, country, year);
+        
+        var queryParams = new List<string> { $"page={page}" };
+        if (!string.IsNullOrEmpty(country)) queryParams.Add($"country={country}");
+        if (year.HasValue) queryParams.Add($"year={year}");
+        
+        var queryString = string.Join("&", queryParams);
+        var url = $"/v1/api/the-loai/{slug}?{queryString}";
+
+        var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<FilteredMovieListResponse>(content) ?? new FilteredMovieListResponse();
