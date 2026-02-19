@@ -8,6 +8,7 @@ import { Register } from './pages/Register';
 import { CategoryPage } from './pages/CategoryPage';
 import { SearchPage } from './pages/SearchPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import { WatchPage } from './pages/WatchPage';
 
 // Protected Route Component
@@ -55,7 +56,9 @@ function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <AppRoutes />
+                <FavoritesProvider>
+                    <AppRoutes />
+                </FavoritesProvider>
             </AuthProvider>
         </BrowserRouter>
     );

@@ -31,6 +31,6 @@ public class MovieService : IMovieService
     public async Task<CountryResponseDTO> GetCountriesAsync()
         => await _movieApiService.GetCountriesAsync();
 
-    public async Task<FilteredMovieListResponse> GetMoviesByCategoryAsync(string slug, int page = 1)
-        => await _movieApiService.GetMoviesByCategoryAsync(slug, page);
+    public async Task<FilteredMovieListResponse> GetMoviesByCategoryAsync(string slug, int page = 1, string? country = null, int? year = null)
+        => await _movieApiService.GetMoviesByCategoryAsync(slug, page, country, year);
 }

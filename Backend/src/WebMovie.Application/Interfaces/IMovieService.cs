@@ -10,5 +10,5 @@ public interface IMovieService
     Task<FilteredMovieListResponse> SearchMoviesAsync(string keyword, int limit = 10);
     Task<CategoryResponseDTO> GetCategoriesAsync();
     Task<CountryResponseDTO> GetCountriesAsync();
-    Task<FilteredMovieListResponse> GetMoviesByCategoryAsync(string slug, int page = 1);
+    Task<FilteredMovieListResponse> GetMoviesByCategoryAsync(string slug, int page = 1, string? country = null, int? year = null);
 }

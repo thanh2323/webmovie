@@ -55,11 +55,50 @@ const MovieService = {
         return response.data;
     },
 
-    getMoviesByCategory: async (slug: string, page: number = 1): Promise<FilteredMovieListResponse> => {
+    getMoviesByCategory: async (
+        slug: string,
+        page: number = 1,
+        country?: string,
+        year?: number
+    ): Promise<FilteredMovieListResponse> => {
+        const params: any = { page };
+        if (country) params.country = country;
+        if (year) params.year = year;
+
         const response = await api.get<FilteredMovieListResponse>(`/movies/category/${slug}`, {
-            params: { page }
+            params
         });
         return response.data;
+    },
+
+    // Favorites
+    addFavorite: async (movie: {
+        movieSlug: string;
+        movieName: string;
+        moviePosterUrl?: string;
+        movieThumbUrl?: string;
+        movieYear?: number;
+    }) => {
+        const response = await api.post('/favorites', movie);
+        return response.data;
+    },
+
+    removeFavorite: async (slug: string) => {
+        await api.delete(`/favorites/${slug}`);
+    },
+
+    getFavorites: async () => {
+        const response = await api.get<any[]>('/favorites');
+        return response.data;
+    },
+
+    checkFavoriteStatus: async (slug: string) => {
+        try {
+            const response = await api.get<boolean>(`/favorites/check/${slug}`);
+            return response.data;
+        } catch (error) {
+            return false;
+        }
     },
 };
 

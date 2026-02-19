@@ -1,10 +1,12 @@
-import { Play, Plus, ThumbsUp, Loader2, PlayCircle } from 'lucide-react';
+import { Play, Plus, ThumbsUp, Loader2, PlayCircle, Check } from 'lucide-react';
 import { Section } from '../components/UI/Section';
 import { CommentSection } from '../components/UI/CommentSection';
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import MovieService from '../services/movieService';
 import { MovieInfo, EpisodeServer, MovieItem } from '../types/api';
+import { useFavorites } from '../context/FavoritesContext';
+import { useAuth } from '../context/AuthContext';
 
 export function MovieDetail() {
     const { id } = useParams<{ id: string }>();
@@ -13,6 +15,16 @@ export function MovieDetail() {
     const [isLoading, setIsLoading] = useState(true);
     const [relatedMovies, setRelatedMovies] = useState<MovieItem[]>([]);
     const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+
+    // Use global favorites context
+    const { isFavorite: checkIsFavorite, addFavorite, removeFavorite } = useFavorites();
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
+
+    // Derived state
+    const isFavorite = movie ? checkIsFavorite(movie.slug) : false;
 
 
     useEffect(() => {
@@ -40,6 +52,37 @@ export function MovieDetail() {
 
         fetchMovieDetail();
     }, [id]);
+
+    const handleToggleFavorite = async () => {
+        if (!movie) return;
+
+        if (!isAuthenticated) {
+            navigate('/login', { state: { from: location } });
+            return;
+        }
+
+        if (isFavoriteLoading) return;
+
+        setIsFavoriteLoading(true);
+        try {
+            if (isFavorite) {
+                await removeFavorite(movie.slug);
+            } else {
+                await addFavorite({
+                    movieSlug: movie.slug,
+                    movieName: movie.name,
+                    moviePosterUrl: movie.poster_url,
+                    movieThumbUrl: movie.thumb_url,
+                    movieYear: movie.year
+                });
+            }
+        } catch (error) {
+            console.error("Failed to toggle favorite", error);
+            // Ideally show a toast notification here
+        } finally {
+            setIsFavoriteLoading(false);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -130,14 +173,24 @@ export function MovieDetail() {
                                 </button>
                             )}
 
-                            <button className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-500/50 backdrop-blur-md text-white rounded font-bold hover:bg-gray-500/70 transition">
-                                <Plus className="w-5 h-5" />
-                                My List
+                            <button
+                                onClick={handleToggleFavorite}
+                                disabled={isFavoriteLoading}
+                                className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-500/50 backdrop-blur-md text-white rounded font-bold hover:bg-gray-500/70 transition disabled:opacity-50"
+                            >
+                                {isFavorite ? (
+                                    <>
+                                        <Check className="w-5 h-5" />
+                                        My List
+                                    </>
+                                ) : (
+                                    <>
+                                        <Plus className="w-5 h-5" />
+                                        My List
+                                    </>
+                                )}
                             </button>
-                            <button className="flex items-center justify-center p-3 rounded sm:rounded-full border border-gray-400 hover:border-white transition bg-transparent sm:bg-white/5">
-                                <ThumbsUp className="w-5 h-5" />
-                                <span className="sm:hidden ml-2 font-bold">Like</span>
-                            </button>
+
                         </div>
                     </div>
                 </div>
