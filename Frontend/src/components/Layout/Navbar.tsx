@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import MovieService from '../../services/movieService';
 import { Category } from '../../types/api';
+import logo from '../../assets/logo.svg';
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -63,8 +64,11 @@ export function Navbar() {
             <div className="px-4 md:px-8 lg:px-8 xl:px-12 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-8">
                     {/* Logo */}
-                    <Link to="/" className="text-2xl lg:text-3xl font-black text-primary tracking-tighter uppercase font-display">
-                        Stream<span className="text-white">Flix</span>
+                    <Link to="/" className="flex items-center gap-2">
+                        <img src={logo} alt="StreamFlix Logo" className="w-8 h-8 lg:w-10 lg:h-10 object-contain" />
+                        <span className="text-2xl lg:text-3xl font-black text-primary tracking-tighter uppercase font-display">
+                            Stream<span className="text-white">Flix</span>
+                        </span>
                     </Link>
 
                     {/* Desktop Nav */}

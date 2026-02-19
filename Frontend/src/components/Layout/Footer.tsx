@@ -1,5 +1,6 @@
 import { Facebook, Twitter, Instagram, Youtube, ArrowUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.svg';
 
 export function Footer() {
     const scrollToTop = () => {
@@ -15,7 +16,8 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                     {/* Brand Column */}
                     <div className="space-y-4">
-                        <Link to="/" className="inline-block">
+                        <Link to="/" className="flex items-center gap-2 inline-block">
+                            <img src={logo} alt="StreamFlix Logo" className="w-8 h-8 object-contain" />
                             <span className="text-2xl font-black text-primary tracking-tighter uppercase font-display">
                                 Stream<span className="text-white">Flix</span>
                             </span>
