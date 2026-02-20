@@ -5,7 +5,7 @@ using WebMovie.Application.Interfaces;
 using WebMovie.Application.Services;
 using WebMovie.Infrastructure.Data;
 using WebMovie.Infrastructure.ExternalApis;
-
+using WebMovie.Infrastructure.Services;
 using WebMovie.Infrastructure.Repositories;
 
 namespace WebMovie.Infrastructure;
@@ -19,9 +19,24 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(connectionString));
 
+        // Redis Cache
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration["Redis:ConnectionString"] ?? "localhost:6379";
+            options.InstanceName = "WebMovie:";
+        });
+        services.AddSingleton<ICacheService, RedisCacheService>();
+
         // External API
         services.Configure<MovieApiSettings>(configuration.GetSection(MovieApiSettings.SectionName));
-        services.AddHttpClient<IMovieApiService, MovieApiService>();
+        services.AddHttpClient<MovieApiService>();
+        services.AddSingleton<IMovieApiService>(sp =>
+        {
+            var inner = sp.GetRequiredService<MovieApiService>();
+            var cache = sp.GetRequiredService<ICacheService>();
+            var logger = sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<CachedMovieApiService>>();
+            return new CachedMovieApiService(inner, cache, logger);
+        });
 
         // Authentication
         services.Configure<Authentication.JwtSettings>(configuration.GetSection(Authentication.JwtSettings.SectionName));

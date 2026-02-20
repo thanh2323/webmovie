@@ -37,6 +37,24 @@ services:
       - JwtSettings__Secret=${JWT_SECRET}
       - JwtSettings__Issuer=${JWT_ISSUER}
       - JwtSettings__Audience=${JWT_AUDIENCE}
+      - Redis__ConnectionString=${REDIS_CONNECTION_STRING}
+    depends_on:
+      - redis
+    networks:
+      - webmovie-network
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - webmovie-network
 
@@ -52,7 +70,7 @@ services:
 
 networks:
   webmovie-network:
-    enable_ipv6: true
-    ipam:
-      config:
-        - subnet: 2001:db8:1::/64
+    driver: bridge
+
+volumes:
+  redis-data:

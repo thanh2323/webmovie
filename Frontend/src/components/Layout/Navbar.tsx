@@ -90,11 +90,12 @@ export function Navbar() {
 
                     {/* Desktop Nav */}
                     <div className="hidden lg:flex items-center gap-4 lg:gap-6 text-sm font-medium text-text-secondary">
-                        <Link to="/" className="text-white hover:text-primary transition-colors">Trang Chủ</Link>
                         <Link to="/danh-sach/phim-moi-cap-nhat" className="hover:text-primary transition-colors">Phim Mới</Link>
 
                         <Link to="/danh-sach/phim-le" className="hover:text-primary transition-colors">Phim Lẻ</Link>
                         <Link to="/danh-sach/phim-bo" className="hover:text-primary transition-colors">Phim Bộ</Link>
+                        <Link to="/danh-sach/hoat-hinh" className="hover:text-primary transition-colors">Anime</Link>
+
                         <Link to="/my-list" className="hover:text-primary transition-colors">Phim Yêu Thích</Link>
 
                         {/* Movies Dropdown Group */}
@@ -208,13 +209,7 @@ export function Navbar() {
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
                 <div className="absolute top-full left-0 w-full bg-surface border-t border-white/10 p-4 flex flex-col gap-4 lg:hidden animate-slide-up shadow-2xl h-[calc(100vh-80px)] overflow-y-auto">
-                    <Link
-                        to="/"
-                        className="text-gray-300 hover:text-white py-2 font-medium border-b border-white/5"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Trang Chủ
-                    </Link>
+
                     <Link
                         to="/danh-sach/phim-le"
                         className="text-gray-300 hover:text-white py-2 font-medium border-b border-white/5"
@@ -235,6 +230,14 @@ export function Navbar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Phim Bộ
+                    </Link>
+
+                    <Link
+                        to="/danh-sach/hoat-hinh"
+                        className="text-gray-300 hover:text-white py-2 font-medium border-b border-white/5"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        Anime
                     </Link>
                     <Link
                         to="/my-list"
