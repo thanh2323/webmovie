@@ -43,7 +43,11 @@ export function CategoryPage() {
                     MovieService.getCategories(),
                     MovieService.getCountries()
                 ]);
-                if (categoryData.data?.items) setCategories(categoryData.data.items);
+                if (categoryData.data?.items) setCategories(
+                    categoryData.data.items.filter(
+                        (cat) => cat.slug !== 'phim-18' && !cat.name.includes('18+')
+                    )
+                );
                 if (countryData.data?.items) setCountries(countryData.data.items);
             } catch (error) {
                 console.error("Failed to fetch filters", error);
